@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #stopwatch {
+            max-width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        #display {
+            font-size: 36px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 5px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="stopwatch">
+        <h1>Stopwatch</h1>
+        <p id="display">00:00:00</p>
+        <button id="start" onclick="startStopwatch()">Start</button>
+        <button id="pause" onclick="pauseStopwatch()">Pause</button>
+        <br>
+        <button id="reset" onclick="resetStopwatch()">Reset</button>
+        <button id="lap" onclick="recordLap()">Lap</button>
+        <ul id="laps"></ul>
+    </div>
+
+    <script>
+        let startTime = 0;
+        let pausedTime = 0;
+        let isRunning = false;
+        let intervalId = null;
+        let lapCounter = 0;
+
+        function updateDisplay() {
+            let elapsedTime = Date.now() - startTime + pausedTime;
+            let hours = Math.floor(elapsedTime / 3600000);
+            let minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            let seconds = Math.floor((elapsedTime % 60000) / 1000);
+            let milliseconds = Math.floor((elapsedTime % 1000) / 10);
+
+            document.getElementById("display").textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+        }
+
+        function startStopwatch() {
+            if (!isRunning) {
+                startTime = Date.now();
+                intervalId = setInterval(updateDisplay, 10);
+                isRunning = true;
+            }
+        }
+
+        function pauseStopwatch() {
+            if (isRunning) {
+                clearInterval(intervalId);
+                pausedTime += Date.now() - startTime;
+                isRunning = false;
+            }
+        }
+
+        function resetStopwatch() {
+            clearInterval(intervalId);
+            startTime = 0;
+            pausedTime = 0;
+            isRunning = false;
+            updateDisplay();
+            lapCounter = 0;
+            document.getElementById("laps").innerHTML = "";
+        }
+
+        function recordLap() {
+            if (isRunning) {
+                lapCounter++;
+                let lapTime = Date.now() - startTime + pausedTime;
+                let minutes = Math.floor((lapTime % 3600000) / 60000);
+                let seconds = Math.floor((lapTime % 60000) / 1000);
+                let milliseconds = Math.floor((lapTime % 1000) / 10);
+
+                let lapItem = document.createElement("li");
+                lapItem.textContent = `Lap ${lapCounter}: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+                document.getElementById("laps").appendChild(lapItem);
+            }
+        }
+    </script>
+</body>
+</html>
