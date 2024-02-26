@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #faebeb;
+            background-image: url("back\ copy.png");
             margin: 0;
             padding: 0;
             display: flex;
@@ -22,7 +23,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             text-align: center;
-            background-color: #fff;
+            background-color: #ffedf3;
         }
 
         #display {
@@ -32,18 +33,18 @@
         }
 
         button {
-            padding: 10px 20px;
+            padding: 15px 25px; /* Changed padding to 15px top/bottom and 25px left/right */
             margin: 0 10px;
             font-size: 16px;
             cursor: pointer;
             border: none;
-            background-color: #007bff;
+            background-color: #ee4f4f;
             color: #fff;
             border-radius: 3px;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #ff0000;
         }
 
         ul {
@@ -57,15 +58,25 @@
             margin-bottom: 5px;
             color: #666;
         }
+
+        @media (max-width: 768px) {
+            #stopwatch {
+                max-width: 90%;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="stopwatch">
-        <h1>Stopwatch</h1>
+        <h1 style="color: #ff0000;">Stopwatch</h1>
         <p id="display">00:00:00</p>
-        <button id="start" onclick="startStopwatch()">Start</button>
+        <button id="start" onclick="startStopwatch()">Start</button> <br><br>
         <button id="pause" onclick="pauseStopwatch()">Pause</button>
-        <br>
+        <br><br>
         <button id="reset" onclick="resetStopwatch()">Reset</button>
         <button id="lap" onclick="recordLap()">Lap</button>
         <ul id="laps"></ul>
